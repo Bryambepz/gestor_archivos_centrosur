@@ -12,6 +12,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "Proceso")
 public class Proceso {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "proc_id", nullable = false)
@@ -21,7 +22,7 @@ public class Proceso {
     private String descripcion;
 
     @Column(name = "proc_act_plan_manejo_amb")
-    private boolean confirmacion_act;
+    private boolean confirmacion_actual;
 
     @Column(name = "proc_fecha_inicio", nullable = false)
     private LocalDate fecha_ini;

@@ -11,7 +11,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "Registro_Actividad")
-public class Cronograma {
+public class Registro_Actividad {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,6 +26,9 @@ public class Cronograma {
 
     @Column(name = "rega_fecha_realizado")
     private LocalDate fecha_realizado;
+
+    @Column(name = "rega_nombre_doc", length = 100)
+    private String nombre_documento;
     
-    public Cronograma(){}
+    public Registro_Actividad(){}
 }
