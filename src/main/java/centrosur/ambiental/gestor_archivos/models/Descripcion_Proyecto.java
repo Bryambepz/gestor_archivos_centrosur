@@ -27,6 +27,4 @@ public class Descripcion_Proyecto {
     @Column(name = "desc_proy_codigo_aar")
     private String codigo_aar;
 
-    // @Column(name = "desc_proy_aar")
-    // private String aar;
 }
