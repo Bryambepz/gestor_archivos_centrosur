@@ -1,4 +1,4 @@
-package centrosur.ambiental.gestor_archivos.models;
+package centrosur.ambiental.gestor_archivos.Models;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
