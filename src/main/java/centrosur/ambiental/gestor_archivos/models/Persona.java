@@ -1,12 +1,16 @@
 package centrosur.ambiental.gestor_archivos.Models;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -48,10 +52,14 @@ public class Persona {
     @Column(name = "per_rol")
     private String rol;
 
-    public Persona() {}
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Actividad_General> acti_gen;
 
+    public Persona() {
+    }
+    
     public Persona(String cedula, String nombres, String apellidos, LocalDate fecha_nacimiento, String profesion,
-            String direccion, String email, String contrasenia, boolean estado, String rol) {
+    String direccion, String email, String contrasenia, boolean estado, String rol) {
         this.cedula = cedula;
         this.nombres = nombres;
         this.apellidos = apellidos;
@@ -62,6 +70,10 @@ public class Persona {
         this.contrasenia = contrasenia;
         this.estado = estado;
         this.rol = rol;
+    }
+
+    public Persona(List<Actividad_General> acti_gen) {
+        this.acti_gen = acti_gen;
     }
 
     public String getCedula() {
