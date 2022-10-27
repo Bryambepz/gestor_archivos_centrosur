@@ -1,18 +1,20 @@
 package centrosur.ambiental.gestor_archivos.Models;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Table(name = "Persona")
 public class Persona {
@@ -52,10 +54,12 @@ public class Persona {
     @Column(name = "per_rol")
     private String rol;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Actividad_General> acti_gen;
-
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonIgnore
+    private Set<Actividad_General> lista_act_generales = new HashSet<>();
+    
     public Persona() {
+        lista_act_generales = new HashSet<>();
     }
     
     public Persona(String cedula, String nombres, String apellidos, LocalDate fecha_nacimiento, String profesion,
@@ -70,97 +74,102 @@ public class Persona {
         this.contrasenia = contrasenia;
         this.estado = estado;
         this.rol = rol;
+        // lista_act_generales = new HashSet<>();`
     }
-
-    public Persona(List<Actividad_General> acti_gen) {
-        this.acti_gen = acti_gen;
-    }
-
+    
     public String getCedula() {
         return cedula;
     }
-
+    
     public void setCedula(String cedula) {
         this.cedula = cedula;
     }
-
+    
     public String getNombres() {
         return nombres;
     }
-
+    
     public void setNombres(String nombres) {
         this.nombres = nombres;
     }
-
+    
     public String getApellidos() {
         return apellidos;
     }
-
+    
     public void setApellidos(String apellidos) {
         this.apellidos = apellidos;
     }
-
+    
     public LocalDate getFecha_nacimiento() {
         return fecha_nacimiento;
     }
-
+    
     public void setFecha_nacimiento(LocalDate fecha_nacimiento) {
         this.fecha_nacimiento = fecha_nacimiento;
     }
-
+    
     public String getProfesion() {
         return profesion;
     }
-
+    
     public void setProfesion(String profesion) {
         this.profesion = profesion;
     }
-
+    
     public String getDireccion() {
         return direccion;
     }
-
+    
     public void setDireccion(String direccion) {
         this.direccion = direccion;
     }
-
+    
     public String getEmail() {
         return email;
     }
-
+    
     public void setEmail(String email) {
         this.email = email;
     }
-
+    
     public String getContrasenia() {
         return contrasenia;
     }
-
+    
     public void setContrasenia(String contrasenia) {
         this.contrasenia = contrasenia;
     }
-
+    
     public boolean isEstado() {
         return estado;
     }
-
+    
     public void setEstado(boolean estado) {
         this.estado = estado;
     }
-
+    
     public String getRol() {
         return rol;
     }
-
+    
     public void setRol(String rol) {
         this.rol = rol;
+    }
+    
+    public void addActividad(Actividad_General ac_gen) {
+		lista_act_generales.add(ac_gen);
+	}
+    
+    public Set<Actividad_General> getLista_act_generales() {
+        return lista_act_generales;
     }
 
     @Override
     public String toString() {
         return "Persona [id=" + id + ", cedula=" + cedula + ", nombres=" + nombres + ", apellidos=" + apellidos
                 + ", fecha_nacimiento=" + fecha_nacimiento + ", profesion=" + profesion + ", direccion=" + direccion
-                + ", email=" + email + ", contrasenia=" + contrasenia + ", estado=" + estado + ", rol=" + rol + "]";
+                + ", email=" + email + ", contrasenia=" + contrasenia + ", estado=" + estado + ", rol=" + rol +"]";
     }
 
 }
