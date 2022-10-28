@@ -59,7 +59,7 @@ public class Persona {
     private Set<Actividad_General> lista_act_generales = new HashSet<>();
     
     public Persona() {
-        lista_act_generales = new HashSet<>();
+        this.lista_act_generales = new HashSet<>();
     }
     
     public Persona(String cedula, String nombres, String apellidos, LocalDate fecha_nacimiento, String profesion,
@@ -74,7 +74,6 @@ public class Persona {
         this.contrasenia = contrasenia;
         this.estado = estado;
         this.rol = rol;
-        // lista_act_generales = new HashSet<>();`
     }
     
     public String getCedula() {

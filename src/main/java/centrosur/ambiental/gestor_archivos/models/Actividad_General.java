@@ -59,12 +59,13 @@ public class Actividad_General {
     @JsonIgnore
     private Persona responsable;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<Registro_Actividad> lista_reg_actividad = new HashSet<>();
     
     public Actividad_General() {
         this.responsable = new Persona();
+        this.lista_reg_actividad = new HashSet<>();
     }
     
     public Actividad_General(String titulo, String descripcion, Integer frecuencia, String observacion, boolean estado,

@@ -38,21 +38,21 @@ public class Registro_Actividad {
     @Column(name = "rega_nombre_doc", length = 100)
     private String nombre_documento;
     
-    @ManyToOne(fetch = FetchType.EAGER, optional = true)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "acg_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private Actividad_General acti_general;
 
-    public Registro_Actividad(){}
+    public Registro_Actividad(){
+        acti_general = new Actividad_General();
+    }
 
-    public Registro_Actividad(boolean estado, String observacion, LocalDate fecha_realizado, String nombre_documento,
-            Actividad_General acti_general) {
+    public Registro_Actividad(boolean estado, String observacion, LocalDate fecha_realizado, String nombre_documento) {
         this.estado = estado;
         this.observacion = observacion;
         this.fecha_realizado = fecha_realizado;
         this.nombre_documento = nombre_documento;
-        this.acti_general = acti_general;
     }
 
     public boolean isEstado() {

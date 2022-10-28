@@ -3,6 +3,7 @@ package centrosur.ambiental.gestor_archivos.restService;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +23,7 @@ public class PersonaRest {
     @Autowired
     Persona_Repository Persona_Repository;
 
-    @PostMapping("/registrarse")
+    @PostMapping(path = "/registrarse", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Persona registrarse(@RequestBody Persona per) {
         try {
             return Persona_Repository.save(per);
@@ -32,7 +33,7 @@ public class PersonaRest {
         }
     }
 
-    @GetMapping("/allUsers")
+    @GetMapping(path = "/allUsers", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Persona> getUsers() {
         // Persona p = new Persona("2121", "bry", "pr", LocalDate.now(),
         // "sis", "nult", "bry1@12.com", "1234", true, "user");
@@ -45,7 +46,7 @@ public class PersonaRest {
         return (List<Persona>) Persona_Repository.findAll();
     }
 
-    @PostMapping("/login")
+    @PostMapping(path = "/login", consumes = MediaType.APPLICATION_JSON_VALUE)
     public boolean addUser(@RequestParam String email, @RequestParam String password) {
         return Persona_Repository.findAll().stream().filter(p -> email.equals(p.getEmail()) && password.equals(p.getContrasenia()))
                 .findFirst().isPresent();

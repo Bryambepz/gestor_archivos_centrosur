@@ -4,10 +4,20 @@ import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "Proceso")
@@ -48,6 +58,119 @@ public class Proceso {
     @Column(name = "proc_estado_contrato")
     private boolean estado_contrato;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "desc_proy_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @NotFound(action = NotFoundAction.IGNORE) 
+    @JsonIgnore
+    private Descripcion_Proyecto desc_proyecto;
     
-    public Proceso(){}
+    public Proceso(){
+        this.desc_proyecto = new Descripcion_Proyecto();
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public boolean isConfirmacion_actual() {
+        return confirmacion_actual;
+    }
+
+    public void setConfirmacion_actual(boolean confirmacion_actual) {
+        this.confirmacion_actual = confirmacion_actual;
+    }
+
+    public String getNum_contrato() {
+        return num_contrato;
+    }
+
+    public void setNum_contrato(String num_contrato) {
+        this.num_contrato = num_contrato;
+    }
+
+    public double getMonto() {
+        return monto;
+    }
+
+    public void setMonto(double monto) {
+        this.monto = monto;
+    }
+
+    public String getConsultor() {
+        return consultor;
+    }
+
+    public void setConsultor(String consultor) {
+        this.consultor = consultor;
+    }
+
+    public String getCodigo_registro() {
+        return codigo_registro;
+    }
+
+    public void setCodigo_registro(String codigo_registro) {
+        this.codigo_registro = codigo_registro;
+    }
+
+    public LocalDate getFecha_ini() {
+        return fecha_ini;
+    }
+
+    public void setFecha_ini(LocalDate fecha_ini) {
+        this.fecha_ini = fecha_ini;
+    }
+
+    public LocalDate getFecha_fin() {
+        return fecha_fin;
+    }
+
+    public void setFecha_fin(LocalDate fecha_fin) {
+        this.fecha_fin = fecha_fin;
+    }
+
+    public boolean isPlan_acc() {
+        return plan_acc;
+    }
+
+    public void setPlan_acc(boolean plan_acc) {
+        this.plan_acc = plan_acc;
+    }
+
+    public boolean isEstado_contrato() {
+        return estado_contrato;
+    }
+
+    public void setEstado_contrato(boolean estado_contrato) {
+        this.estado_contrato = estado_contrato;
+    }
+
+    public Descripcion_Proyecto getDesc_proyecto() {
+        return desc_proyecto;
+    }
+
+    public void setDesc_proyecto(Descripcion_Proyecto desc_proyecto) {
+        this.desc_proyecto = desc_proyecto;
+    }
+
+    @Override
+    public String toString() {
+        return "Proceso [id=" + id + ", descripcion=" + descripcion + ", confirmacion_actual=" + confirmacion_actual
+                + ", num_contrato=" + num_contrato + ", monto=" + monto + ", consultor=" + consultor
+                + ", codigo_registro=" + codigo_registro + ", fecha_ini=" + fecha_ini + ", fecha_fin=" + fecha_fin
+                + ", plan_acc=" + plan_acc + ", estado_contrato=" + estado_contrato + ", desc_proyecto=" + desc_proyecto
+                + "]";
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }    
 }
