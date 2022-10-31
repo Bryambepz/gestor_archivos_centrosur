@@ -1,7 +1,9 @@
 package centrosur.ambiental.gestor_archivos.Models;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -21,11 +23,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "Proceso")
-public class Proceso {
+public class Proceso implements Serializable{
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "proc_id", nullable = false)
+    @Column(name = "proc_id", nullable = false, unique = true)
     private Long id;
 
     @Column( name = "proc_descripcion", length = 255, nullable = false)
@@ -58,15 +60,31 @@ public class Proceso {
     @Column(name = "proc_estado_contrato")
     private boolean estado_contrato;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name = "desc_proy_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @NotFound(action = NotFoundAction.IGNORE) 
+    // @NotFound(action = NotFoundAction.IGNORE)
     @JsonIgnore
     private Descripcion_Proyecto desc_proyecto;
     
     public Proceso(){
         this.desc_proyecto = new Descripcion_Proyecto();
+    }
+
+    public Proceso(String descripcion, boolean confirmacion_actual, String num_contrato, double monto, String consultor,
+            String codigo_registro, LocalDate fecha_ini, LocalDate fecha_fin, boolean plan_acc, boolean estado_contrato,
+            Descripcion_Proyecto desc_proyecto) {
+        this.descripcion = descripcion;
+        this.confirmacion_actual = confirmacion_actual;
+        this.num_contrato = num_contrato;
+        this.monto = monto;
+        this.consultor = consultor;
+        this.codigo_registro = codigo_registro;
+        this.fecha_ini = fecha_ini;
+        this.fecha_fin = fecha_fin;
+        this.plan_acc = plan_acc;
+        this.estado_contrato = estado_contrato;
+        this.desc_proyecto = desc_proyecto;
     }
 
     public String getDescripcion() {

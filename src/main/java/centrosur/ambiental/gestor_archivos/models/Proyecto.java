@@ -14,9 +14,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -35,7 +32,6 @@ public class Proyecto {
     private LocalDate fecha_creacion;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @NotFound(action = NotFoundAction.IGNORE) 
     @JsonIgnore
     private Set<Descripcion_Proyecto> lista_desc_proy = new HashSet<>();
 

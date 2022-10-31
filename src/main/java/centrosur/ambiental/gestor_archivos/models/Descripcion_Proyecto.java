@@ -8,14 +8,16 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
+// import org.hibernate.annotations.NotFound;
+// import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -26,10 +28,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class Descripcion_Proyecto {
     
     @Id
-    // @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "desc_proy_id", nullable = false, unique = true)
-    @NotFound(action = NotFoundAction.IGNORE)
     private Integer id;
+
+    @Column(name = "desc_proy_identificador_desc", nullable = false, unique = true)
+    private String identificador_desc;
 
     @Column(name = "desc_proy_fecha_emision", nullable = false)
     private LocalDate fecha_emision;
@@ -43,7 +47,7 @@ public class Descripcion_Proyecto {
     @Column(name = "desc_proy_aar", nullable = false)
     private String aar;
     
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "proy_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
@@ -58,22 +62,12 @@ public class Descripcion_Proyecto {
         this.lista_procesos = new HashSet<>();
     }
 
-    public Descripcion_Proyecto(Integer id, LocalDate fecha_emision, String codigo_dga, String codigo_aar, String aar,
-            Proyecto proyecto) {
-        this.id = id;
-        this.fecha_emision = fecha_emision;
-        this.codigo_dga = codigo_dga;
-        this.codigo_aar = codigo_aar;
-        this.aar = aar;
-        this.proyecto = proyecto;
+    public String getIdentificador_desc() {
+        return identificador_desc;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdentificador_desc(String identificador_desc) {
+        this.identificador_desc = identificador_desc;
     }
 
     public LocalDate getFecha_emision() {
@@ -127,9 +121,9 @@ public class Descripcion_Proyecto {
 
     @Override
     public String toString() {
-        return "Descripcion_Proyecto [id=" + id + ", fecha_emision=" + fecha_emision + ", codigo_dga=" + codigo_dga
-                + ", codigo_aar=" + codigo_aar + ", aar=" + aar + ", proyecto=" + proyecto + "]";
+        return "Descripcion_Proyecto [id=" + id + ", identificador_desc=" + identificador_desc + ", fecha_emision="
+                + fecha_emision + ", codigo_dga=" + codigo_dga + ", codigo_aar=" + codigo_aar + ", aar=" + aar
+                + ", proyecto=" + proyecto + "]";
     }
-
 
 }

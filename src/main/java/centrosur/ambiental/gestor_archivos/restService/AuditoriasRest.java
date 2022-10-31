@@ -56,16 +56,19 @@ public class AuditoriasRest {
     }
 
     @PostMapping(path = "/proceso")
-    public Proceso crearProceso(@RequestBody Proceso proc, @RequestParam Integer idDescProy) {
+    public Proceso crearProceso(@RequestBody Proceso proc, @RequestParam String identificadorProyecto) {
         try {
-            Descripcion_Proyecto desc_p = desc_proy_rep.findAll().stream()
-                    .filter(f -> idDescProy == f.getId().intValue()).findFirst().get();
+            Descripcion_Proyecto desc_p = desc_proy_rep.findAll().stream().filter(f -> identificadorProyecto.equals(f.getIdentificador_desc())).findFirst().get();
+
             proc.setDesc_proyecto(desc_p);
             desc_p.addProceso(proc);
+            System.out.println("Proceso --> " + proc);
             return (desc_p != null) ? proc_rep.save(proc) : null;
         } catch (Exception e) {
-            // TODO: handle exception
+            System.out.println("errp --->\n" + e.getMessage());
             return null;
         }
     }
+
+    
 }
