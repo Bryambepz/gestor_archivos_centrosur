@@ -2,6 +2,8 @@ package centrosur.ambiental.gestor_archivos.Models;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -12,10 +14,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -63,28 +64,15 @@ public class Proceso implements Serializable{
     @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name = "desc_proy_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    // @NotFound(action = NotFoundAction.IGNORE)
     @JsonIgnore
     private Descripcion_Proyecto desc_proyecto;
+
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Set<Informacion_Proceso> lista_informacion_proc = new HashSet<>();
     
     public Proceso(){
-        this.desc_proyecto = new Descripcion_Proyecto();
-    }
-
-    public Proceso(String descripcion, boolean confirmacion_actual, String num_contrato, double monto, String consultor,
-            String codigo_registro, LocalDate fecha_ini, LocalDate fecha_fin, boolean plan_acc, boolean estado_contrato,
-            Descripcion_Proyecto desc_proyecto) {
-        this.descripcion = descripcion;
-        this.confirmacion_actual = confirmacion_actual;
-        this.num_contrato = num_contrato;
-        this.monto = monto;
-        this.consultor = consultor;
-        this.codigo_registro = codigo_registro;
-        this.fecha_ini = fecha_ini;
-        this.fecha_fin = fecha_fin;
-        this.plan_acc = plan_acc;
-        this.estado_contrato = estado_contrato;
-        this.desc_proyecto = desc_proyecto;
+        this.lista_informacion_proc = new HashSet<>();
     }
 
     public String getDescripcion() {
@@ -175,6 +163,14 @@ public class Proceso implements Serializable{
         this.desc_proyecto = desc_proyecto;
     }
 
+    public Set<Informacion_Proceso> getLista_informacion_proc() {
+        return lista_informacion_proc;
+    }
+
+    public void addInformacion(Informacion_Proceso inf_pr){
+        this.lista_informacion_proc.add(inf_pr);
+    }
+
     @Override
     public String toString() {
         return "Proceso [id=" + id + ", descripcion=" + descripcion + ", confirmacion_actual=" + confirmacion_actual
@@ -183,12 +179,5 @@ public class Proceso implements Serializable{
                 + ", plan_acc=" + plan_acc + ", estado_contrato=" + estado_contrato + ", desc_proyecto=" + desc_proyecto
                 + "]";
     }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }    
+   
 }

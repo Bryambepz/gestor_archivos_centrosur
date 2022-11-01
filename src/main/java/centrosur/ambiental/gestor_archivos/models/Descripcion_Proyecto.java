@@ -16,8 +16,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-// import org.hibernate.annotations.NotFound;
-// import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -106,17 +104,16 @@ public class Descripcion_Proyecto {
         return proyecto;
     }
 
-    public Descripcion_Proyecto setProyecto(Proyecto proyecto) {
+    public void setProyecto(Proyecto proyecto) {
         this.proyecto = proyecto;
-        return this;
     }
 
     public Set<Proceso> getLista_procesos() {
         return lista_procesos;
     }
 
-    public void addProceso(Proceso proceso){
-        lista_procesos.add(proceso);
+    public void addProceso(Proceso proc){
+        lista_procesos.add(proc);
     }
 
     @Override

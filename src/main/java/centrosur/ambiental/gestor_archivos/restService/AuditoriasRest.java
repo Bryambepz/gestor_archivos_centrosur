@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import centrosur.ambiental.gestor_archivos.Models.Descripcion_Proyecto;
+import centrosur.ambiental.gestor_archivos.Models.Informacion_Proceso;
 import centrosur.ambiental.gestor_archivos.Models.Proceso;
 import centrosur.ambiental.gestor_archivos.Models.Proyecto;
 import centrosur.ambiental.gestor_archivos.Repository.Descripcion_Proyecto_Repository;
+import centrosur.ambiental.gestor_archivos.Repository.Informacion_Proceso_Repository;
 import centrosur.ambiental.gestor_archivos.Repository.Proceso_Repository;
 import centrosur.ambiental.gestor_archivos.Repository.Proyecto_Repository;
 
@@ -25,9 +27,10 @@ public class AuditoriasRest {
     Proyecto_Repository proy_rep;
     @Autowired
     Descripcion_Proyecto_Repository desc_proy_rep;
-
     @Autowired
     Proceso_Repository proc_rep;
+    @Autowired
+    Informacion_Proceso_Repository info_rep;
 
     @PostMapping(path = "/proyecto", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Proyecto crearProyecto(@RequestBody Proyecto proy) {
@@ -70,5 +73,18 @@ public class AuditoriasRest {
         }
     }
 
-    
+    @PostMapping(path = "/AdjuntarInformacion" )
+    public Informacion_Proceso addInformacionProceso(@RequestBody Informacion_Proceso info_proc, @RequestParam Long id_proceso){
+        try {
+            Proceso proc = proc_rep.findById(id_proceso).get();
+            info_proc.setProceso(proc);
+            proc.addInformacion(info_proc);
+            System.out.println(" el --> \n" + info_proc);
+            // System.out.println(" el --> \n" + proc.getLista_informacion_proc());
+            return (proc != null) ? info_rep.save(info_proc) : null;
+        } catch (Exception e) {
+            // TODO: handle exception
+            return null;
+        }
+    }
 }
