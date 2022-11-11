@@ -30,6 +30,7 @@ public class ActividadRest {
 
     @PostMapping(path = "/ingresar_actividad", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Actividad_General ingresarActividad(@RequestBody Actividad_General ac_gen, @RequestParam String cedula) {
+        System.out.println("a guardf");
         try {
             Persona p = per_rep.findAll().stream().filter(per -> cedula.equals(per.getCedula())).findFirst().get();
             ac_gen.setPersona(p);

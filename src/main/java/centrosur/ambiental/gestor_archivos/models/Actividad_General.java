@@ -39,10 +39,10 @@ public class Actividad_General {
     private String descripcion;
     
     @Column(name = "acg_frecuencia", nullable = false)
-    private Integer frecuencia;
+    private String frecuencia;
     
-    @Column(name = "acg_observacion", nullable = false, length = 255)
-    private String observacion;
+    // @Column(name = "acg_observacion", nullable = false, length = 255)
+    // private String observacion;
     
     @Column(name = "acg_estado")
     private boolean estado;
@@ -68,12 +68,11 @@ public class Actividad_General {
         this.lista_reg_actividad = new HashSet<>();
     }
     
-    public Actividad_General(String titulo, String descripcion, Integer frecuencia, String observacion, boolean estado,
+    public Actividad_General(String titulo, String descripcion, String frecuencia, boolean estado,
             LocalDate fecha_inicio, LocalDate fecha_fin) {
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.frecuencia = frecuencia;
-        this.observacion = observacion;
         this.estado = estado;
         this.fecha_inicio = fecha_inicio;
         this.fecha_fin = fecha_fin;
@@ -95,20 +94,12 @@ public class Actividad_General {
         this.descripcion = descripcion;
     }
 
-    public Integer getFrecuencia() {
+    public String getFrecuencia() {
         return frecuencia;
     }
 
-    public void setFrecuencia(Integer frecuencia) {
+    public void setFrecuencia(String frecuencia) {
         this.frecuencia = frecuencia;
-    }
-
-    public String getObservacion() {
-        return observacion;
-    }
-
-    public void setObservacion(String observacion) {
-        this.observacion = observacion;
     }
 
     public boolean isEstado() {
@@ -154,7 +145,7 @@ public class Actividad_General {
     @Override
     public String toString() {
         return "Actividad_General [id=" + id + ", titulo=" + titulo + ", descripcion=" + descripcion + ", frecuencia="
-                + frecuencia + ", observacion=" + observacion + ", estado=" + estado + ", fecha_inicio=" + fecha_inicio
+                + frecuencia + ", estado=" + estado + ", fecha_inicio=" + fecha_inicio
                 + ", fecha_fin=" + fecha_fin + ", persona=" + responsable + "]";
     }
 
