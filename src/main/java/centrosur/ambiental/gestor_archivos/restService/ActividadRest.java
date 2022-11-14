@@ -1,8 +1,12 @@
 package centrosur.ambiental.gestor_archivos.restService;
 
+import java.util.List;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +31,8 @@ public class ActividadRest {
     Persona_Repository per_rep;
     @Autowired
     Registro_Actividad_Repository regis_act_rep;
+    @Autowired
+    Persona_Repository persona_rep;
 
     @PostMapping(path = "/ingresar_actividad", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Actividad_General ingresarActividad(@RequestBody Actividad_General ac_gen, @RequestParam String cedula) {
@@ -40,6 +46,18 @@ public class ActividadRest {
         } catch (Exception e) {
             System.out.println(" --> " + e.getMessage());
             return ac_gen;
+        }
+    }
+
+    @GetMapping(path = "/ListarporUsuario", consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
+    public Set<Actividad_General> ListarporUsuario(@RequestParam(name = "cedula") String persona){
+        try {
+            List<Persona> p = persona_rep.findByCedula(persona);
+            System.out.println("la per" + persona + "-- \n" + p);
+            return p.get(0).getLista_act_generales();
+        } catch (Exception e) {
+            System.out.println(" -- > " + e.getMessage());
+            return null;
         }
     }
 
