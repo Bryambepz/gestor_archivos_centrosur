@@ -49,11 +49,16 @@ public class ActividadRest {
         }
     }
 
-    @GetMapping(path = "/ListarporUsuario", consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
-    public Set<Actividad_General> ListarporUsuario(@RequestParam(name = "cedula") String persona){
+    @GetMapping(path = "/ListarporUsuario", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Set<Actividad_General> ListarporUsuario(@RequestParam(name = "cedula") String persona) {
         try {
             List<Persona> p = persona_rep.findByCedula(persona);
-            System.out.println("la per" + persona + "-- \n" + p);
+            p.get(0).getLista_act_generales().stream()
+                    .forEach((a) -> {
+                        System.out.println("la per" + persona + "-- \n" + a.getTitulo());
+                        
+                    });
+
             return p.get(0).getLista_act_generales();
         } catch (Exception e) {
             System.out.println(" -- > " + e.getMessage());

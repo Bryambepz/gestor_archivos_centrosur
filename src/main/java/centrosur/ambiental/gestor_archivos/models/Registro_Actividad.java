@@ -29,8 +29,8 @@ public class Registro_Actividad {
     @Column(name = "rega_estado")
     private boolean estado;
 
-    @Column(name = "rega_observacion")
-    private String observacion;
+    // @Column(name = "rega_observacion")
+    // private String observacion;
 
     @Column(name = "rega_fecha_realizado")
     private LocalDate fecha_realizado;
@@ -48,9 +48,8 @@ public class Registro_Actividad {
         acti_general = new Actividad_General();
     }
 
-    public Registro_Actividad(boolean estado, String observacion, LocalDate fecha_realizado, String nombre_documento) {
+    public Registro_Actividad(boolean estado, LocalDate fecha_realizado, String nombre_documento) {
         this.estado = estado;
-        this.observacion = observacion;
         this.fecha_realizado = fecha_realizado;
         this.nombre_documento = nombre_documento;
     }
@@ -63,13 +62,13 @@ public class Registro_Actividad {
         this.estado = estado;
     }
 
-    public String getObservacion() {
-        return observacion;
-    }
+    // public String getObservacion() {
+    //     return observacion;
+    // }
 
-    public void setObservacion(String observacion) {
-        this.observacion = observacion;
-    }
+    // public void setObservacion(String observacion) {
+    //     this.observacion = observacion;
+    // }
 
     public LocalDate getFecha_realizado() {
         return fecha_realizado;
@@ -97,9 +96,8 @@ public class Registro_Actividad {
 
     @Override
     public String toString() {
-        return "Registro_Actividad [id=" + id + ", estado=" + estado + ", observacion=" + observacion
-                + ", fecha_realizado=" + fecha_realizado + ", nombre_documento=" + nombre_documento + ", acti_general="
-                + acti_general + "]";
+        return "Registro_Actividad [id=" + id + ", estado=" + estado + ", fecha_realizado=" + fecha_realizado 
+            + ", nombre_documento=" + nombre_documento + ", acti_general=" + acti_general + "]";
     }
 
 }
