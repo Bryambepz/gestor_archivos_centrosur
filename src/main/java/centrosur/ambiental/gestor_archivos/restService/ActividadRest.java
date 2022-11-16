@@ -1,7 +1,7 @@
 package centrosur.ambiental.gestor_archivos.restService;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -50,16 +50,17 @@ public class ActividadRest {
     }
 
     @GetMapping(path = "/ListarporUsuario", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Set<Actividad_General> ListarporUsuario(@RequestParam(name = "cedula") String persona) {
+    public List<Actividad_General> ListarporUsuario(@RequestParam(name = "cedula") String persona) {
         try {
             List<Persona> p = persona_rep.findByCedula(persona);
+            List<Actividad_General> listado = new ArrayList<>();
             p.get(0).getLista_act_generales().stream()
                     .forEach((a) -> {
                         System.out.println("la per" + persona + "-- \n" + a.getTitulo());
-                        
+                        listado.add(a);
                     });
 
-            return p.get(0).getLista_act_generales();
+            return (!listado.isEmpty())? listado:null;
         } catch (Exception e) {
             System.out.println(" -- > " + e.getMessage());
             return null;

@@ -35,7 +35,7 @@ public class Registro_Actividad {
     @Column(name = "rega_fecha_realizado")
     private LocalDate fecha_realizado;
 
-    @Column(name = "rega_nombre_doc", length = 100)
+    @Column(name = "rega_nombre_doc", length = 100, unique = true)
     private String nombre_documento;
     
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
