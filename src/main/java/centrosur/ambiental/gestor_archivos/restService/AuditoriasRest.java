@@ -71,6 +71,16 @@ public class AuditoriasRest {
         }
     }
 
+    @GetMapping(path = "/getDescripciones", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Descripcion_Proyecto> getDescripcionProyecto(){
+        try {            
+            return desc_proy_rep.findAll();
+        } catch (Exception e) {
+            System.out.println("--> " + e.getMessage());
+            return null;
+        }
+    }
+
     @PostMapping(path = "/proceso")
     public Proceso crearProceso(@RequestBody Proceso proc, @RequestParam String identificadorProyecto) {
         try {
