@@ -91,6 +91,7 @@ public class AuditoriasRest {
             System.out.println("Proceso --> " + proc);
             return (desc_p != null) ? proc_rep.save(proc) : null;
         } catch (Exception e) {
+            System.out.println("> " + proc + "\n> "+identificadorProyecto);
             System.out.println("errp --->\n" + e.getMessage());
             return null;
         }
