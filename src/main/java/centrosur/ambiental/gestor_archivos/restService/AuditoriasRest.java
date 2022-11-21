@@ -1,5 +1,6 @@
 package centrosur.ambiental.gestor_archivos.restService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,8 +48,8 @@ public class AuditoriasRest {
     }
 
     @GetMapping(path = "/getProyectos", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Proyecto> getProyectosAll(){
-        try {            
+    public List<Proyecto> getProyectosAll() {
+        try {
             return proy_rep.findAll();
         } catch (Exception e) {
             // TODO: handle exception
@@ -72,8 +73,8 @@ public class AuditoriasRest {
     }
 
     @GetMapping(path = "/getDescripciones", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Descripcion_Proyecto> getDescripcionProyecto(){
-        try {            
+    public List<Descripcion_Proyecto> getDescripcionProyecto() {
+        try {
             return desc_proy_rep.findAll();
         } catch (Exception e) {
             System.out.println("--> " + e.getMessage());
@@ -81,24 +82,60 @@ public class AuditoriasRest {
         }
     }
 
-    @PostMapping(path = "/proceso")
+    @GetMapping(path = "/getDescripcionByProyecto", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Descripcion_Proyecto> DescripcionPorProyecto(@RequestParam String proyecto) {
+        try {
+            List<Descripcion_Proyecto> DescByProy = new ArrayList<>();
+            proy_rep.findByNombre(proyecto).get(0).getLista_desc_proy().forEach(des -> DescByProy.add(des));
+            System.out.println(DescByProy);
+            return DescByProy;
+        } catch (Exception e) {
+            System.out.println("--> " + e.getMessage());
+            return null;
+        }
+    }
+
+    @PostMapping(path = "/proceso", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Proceso crearProceso(@RequestBody Proceso proc, @RequestParam String identificadorProyecto) {
         try {
-            Descripcion_Proyecto desc_p = desc_proy_rep.findAll().stream().filter(f -> identificadorProyecto.equals(f.getIdentificador_desc())).findFirst().get();
+            Descripcion_Proyecto desc_p = desc_proy_rep.findAll().stream()
+                    .filter(f -> identificadorProyecto.equals(f.getIdentificador_desc())).findFirst().get();
 
             proc.setDesc_proyecto(desc_p);
             desc_p.addProceso(proc);
             System.out.println("Proceso --> " + proc);
             return (desc_p != null) ? proc_rep.save(proc) : null;
         } catch (Exception e) {
-            System.out.println("> " + proc + "\n> "+identificadorProyecto);
+            System.out.println("> " + proc + "\n> " + identificadorProyecto);
             System.out.println("errp --->\n" + e.getMessage());
             return null;
         }
     }
 
-    @PostMapping(path = "/AdjuntarInformacion" )
-    public Informacion_Proceso addInformacionProceso(@RequestBody Informacion_Proceso info_proc, @RequestParam Long id_proceso){
+    @GetMapping(path = "/getProcesos", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Proceso> getProceso() {
+        try {
+            return proc_rep.findAll();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @GetMapping(path = "/getProcesosByProy", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Proceso> getProcesoByProyecto(@RequestParam String proy_desc) {
+        try {
+            List<Proceso> procesosByDescP = new ArrayList<>();
+            desc_proy_rep.findAll().stream().filter(desc -> desc.getIdentificador_desc().equals(proy_desc)).findFirst()
+                    .get().getLista_procesos().stream().forEach(f -> procesosByDescP.add(f));
+            return procesosByDescP;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @PostMapping(path = "/AdjuntarInformacion")
+    public Informacion_Proceso addInformacionProceso(@RequestBody Informacion_Proceso info_proc,
+            @RequestParam Long id_proceso) {
         try {
             Proceso proc = proc_rep.findById(id_proceso).get();
             info_proc.setProceso(proc);
