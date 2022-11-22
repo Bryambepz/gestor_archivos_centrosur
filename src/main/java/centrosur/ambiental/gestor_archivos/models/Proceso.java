@@ -31,6 +31,9 @@ public class Proceso implements Serializable{
     @Column(name = "proc_id", nullable = false, unique = true)
     private Long id;
 
+    @Column( name = "proc_num_proceso")
+    private Integer proceso;
+    
     @Column( name = "proc_descripcion", length = 255, nullable = false)
     private String descripcion;
     
@@ -73,6 +76,14 @@ public class Proceso implements Serializable{
     
     public Proceso(){
         this.lista_informacion_proc = new HashSet<>();
+    }
+
+    public Integer getProceso() {
+        return proceso;
+    }
+
+    public void setProceso(Integer proceso) {
+        this.proceso = proceso;
     }
 
     public String getDescripcion() {
@@ -179,5 +190,4 @@ public class Proceso implements Serializable{
                 + ", plan_acc=" + plan_acc + ", estado_contrato=" + estado_contrato + ", desc_proyecto=" + desc_proyecto
                 + "]";
     }
-   
 }

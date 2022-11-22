@@ -133,18 +133,44 @@ public class AuditoriasRest {
         }
     }
 
-    @PostMapping(path = "/AdjuntarInformacion")
-    public Informacion_Proceso addInformacionProceso(@RequestBody Informacion_Proceso info_proc,
-            @RequestParam Long id_proceso) {
+    @PostMapping(path = "/AdjuntarInformacion", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Informacion_Proceso addInformacionProceso(@RequestBody Informacion_Proceso info_proc, @RequestParam Integer proceso, @RequestParam String id_descrip) {
         try {
-            Proceso proc = proc_rep.findById(id_proceso).get();
-            info_proc.setProceso(proc);
-            proc.addInformacion(info_proc);
-            System.out.println(" el --> \n" + info_proc);
-            // System.out.println(" el --> \n" + proc.getLista_informacion_proc());
-            return (proc != null) ? info_rep.save(info_proc) : null;
+            Proceso p = desc_proy_rep.findAll().stream().filter(desc_p -> desc_p.getIdentificador_desc().equals(id_descrip)).findFirst()
+                .get().getLista_procesos().stream().filter(pro -> pro.getProceso().equals(proceso)).findFirst()
+                    .get();
+
+            info_proc.setProceso(p);
+            p.addInformacion(info_proc);
+            System.out.println("elrp " + p);
+            System.out.println("yaaaaaaaaa " + p.getLista_informacion_proc());
+            // Proceso proc = proc_rep.findById(id_proceso).get();
+            // info_proc.setProceso(proc);
+            // proc.addInformacion(info_proc);
+            // System.out.println(" el --> \n" + info_proc);
+            // return (proc != null) ? info_rep.save(info_proc) : null;
+            return null;
         } catch (Exception e) {
             // TODO: handle exception
+            return null;
+        }
+    }
+
+    @GetMapping(path = "/getInfoProceso", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public List<Informacion_Proceso> getInfoProc(){
+        try {
+            return info_rep.findAll();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @GetMapping(path = "/getInfoProcesoBy", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public List<Informacion_Proceso> getInfoProcByProc(@RequestParam String id_descripcion, @RequestParam String codigo_registro){
+        try {
+            
+            return info_rep.findAll();
+        } catch (Exception e) {
             return null;
         }
     }
