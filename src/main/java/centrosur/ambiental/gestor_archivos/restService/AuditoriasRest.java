@@ -136,40 +136,38 @@ public class AuditoriasRest {
     @PostMapping(path = "/AdjuntarInformacion", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Informacion_Proceso addInformacionProceso(@RequestBody Informacion_Proceso info_proc, @RequestParam Integer proceso, @RequestParam String id_descrip) {
         try {
+            System.out.println(info_proc);
             Proceso p = desc_proy_rep.findAll().stream().filter(desc_p -> desc_p.getIdentificador_desc().equals(id_descrip)).findFirst()
                 .get().getLista_procesos().stream().filter(pro -> pro.getProceso().equals(proceso)).findFirst()
                     .get();
 
             info_proc.setProceso(p);
             p.addInformacion(info_proc);
-            System.out.println("elrp " + p);
-            System.out.println("yaaaaaaaaa " + p.getLista_informacion_proc());
-            // Proceso proc = proc_rep.findById(id_proceso).get();
-            // info_proc.setProceso(proc);
-            // proc.addInformacion(info_proc);
-            // System.out.println(" el --> \n" + info_proc);
-            // return (proc != null) ? info_rep.save(info_proc) : null;
-            return null;
+            return (p != null) ? info_rep.save(info_proc) : null;
         } catch (Exception e) {
-            // TODO: handle exception
             return null;
         }
     }
 
-    @GetMapping(path = "/getInfoProceso", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/getInfoProceso", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Informacion_Proceso> getInfoProc(){
         try {
             return info_rep.findAll();
         } catch (Exception e) {
+            System.out.println("eer " + e.getMessage());
             return null;
         }
     }
 
-    @GetMapping(path = "/getInfoProcesoBy", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public List<Informacion_Proceso> getInfoProcByProc(@RequestParam String id_descripcion, @RequestParam String codigo_registro){
+    @GetMapping(path = "/getInfoProcesoBy", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Informacion_Proceso> getInfoProcByProc(@RequestParam String id_descripcion, @RequestParam Integer proceso){
         try {
-            
-            return info_rep.findAll();
+            List<Informacion_Proceso> listado = new ArrayList<>();
+            desc_proy_rep.findAll().stream().filter(desc -> desc.getIdentificador_desc().equals(id_descripcion)).findFirst().get()
+                .getLista_procesos().stream().filter(proc -> proc.getProceso() == proceso).findFirst().get()
+                    .getLista_informacion_proc().stream().forEach(f -> listado.add(f));;
+            System.out.println(listado);
+            return listado;
         } catch (Exception e) {
             return null;
         }
