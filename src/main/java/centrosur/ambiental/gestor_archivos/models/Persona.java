@@ -50,9 +50,14 @@ public class Persona {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnore
     private Set<Actividad_General> lista_act_generales = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Set<Proyecto> lista_proyectosAu = new HashSet<>();
     
     public Persona() {
         this.lista_act_generales = new HashSet<>();
+        lista_proyectosAu = new HashSet<>();
     }
        
     public String getCedula() {
@@ -127,6 +132,14 @@ public class Persona {
         return lista_act_generales;
     }
 
+    public Set<Proyecto> getLista_proyectosAu() {
+        return lista_proyectosAu;
+    }
+
+    public void addProyecto(Proyecto proyecto){
+        lista_proyectosAu.add(proyecto);
+    }
+    
     @Override
     public String toString() {
         return "Persona [id=" + id + ", cedula=" + cedula + ", nombres=" + nombres + ", apellidos=" + apellidos

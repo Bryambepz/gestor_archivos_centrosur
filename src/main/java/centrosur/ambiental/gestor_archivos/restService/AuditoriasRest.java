@@ -15,10 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import centrosur.ambiental.gestor_archivos.Models.Descripcion_Proyecto;
 import centrosur.ambiental.gestor_archivos.Models.Informacion_Proceso;
+import centrosur.ambiental.gestor_archivos.Models.Persona;
 import centrosur.ambiental.gestor_archivos.Models.Proceso;
 import centrosur.ambiental.gestor_archivos.Models.Proyecto;
 import centrosur.ambiental.gestor_archivos.Repository.Descripcion_Proyecto_Repository;
 import centrosur.ambiental.gestor_archivos.Repository.Informacion_Proceso_Repository;
+import centrosur.ambiental.gestor_archivos.Repository.Persona_Repository;
 import centrosur.ambiental.gestor_archivos.Repository.Proceso_Repository;
 import centrosur.ambiental.gestor_archivos.Repository.Proyecto_Repository;
 
@@ -27,6 +29,8 @@ import centrosur.ambiental.gestor_archivos.Repository.Proyecto_Repository;
 @RequestMapping("/Auditorias")
 public class AuditoriasRest {
 
+    @Autowired
+    Persona_Repository pers_rep;
     @Autowired
     Proyecto_Repository proy_rep;
     @Autowired
@@ -37,9 +41,12 @@ public class AuditoriasRest {
     Informacion_Proceso_Repository info_rep;
 
     @PostMapping(path = "/proyecto", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Proyecto crearProyecto(@RequestBody Proyecto proy) {
+    public Proyecto crearProyecto(@RequestBody Proyecto proy, @RequestParam String cedulaLogin) {
         try {
+            Persona p = pers_rep.findAll().stream().filter(per -> per.getCedula().equals(cedulaLogin)).findFirst().get();
+            p.addProyecto(proy);
             System.out.println(proy);
+            proy.setResponsable(p);
             return proy_rep.save(proy);
         } catch (Exception e) {
             // TODO: handle exception

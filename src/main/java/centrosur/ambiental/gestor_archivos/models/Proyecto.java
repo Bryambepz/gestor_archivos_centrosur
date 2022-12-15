@@ -11,8 +11,13 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -35,8 +40,15 @@ public class Proyecto {
     @JsonIgnore
     private Set<Descripcion_Proyecto> lista_desc_proy = new HashSet<>();
 
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "per_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private Persona responsable;
+
     public Proyecto(){
         this.lista_desc_proy = new HashSet<>();
+        this.responsable = new Persona();
     }
 
     public String getNombre() {
@@ -64,9 +76,17 @@ public class Proyecto {
         lista_desc_proy.add(desc_proy);
     }
     
+    public Persona getResponsable() {
+        return responsable;
+    }
+
+    public void setResponsable(Persona responsable) {
+        this.responsable = responsable;
+    }
+
     @Override
     public String toString() {
-        return "Proyecto [id=" + id + ", nombre=" + nombre + ", fecha_creacion=" + fecha_creacion + "]";
+        return "Proyecto [id=" + id + ", nombre=" + nombre + ", fecha_creacion=" + fecha_creacion + ", persona=" + responsable + "]";
     }
     
 }
