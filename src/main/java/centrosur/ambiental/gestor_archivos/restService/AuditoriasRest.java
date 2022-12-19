@@ -45,8 +45,8 @@ public class AuditoriasRest {
         try {
             Persona p = pers_rep.findAll().stream().filter(per -> per.getCedula().equals(cedulaLogin)).findFirst().get();
             p.addProyecto(proy);
-            System.out.println(proy);
             proy.setResponsable(p);
+            System.out.println(proy);
             return proy_rep.save(proy);
         } catch (Exception e) {
             // TODO: handle exception

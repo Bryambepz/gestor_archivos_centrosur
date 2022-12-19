@@ -38,7 +38,7 @@ public class Proceso implements Serializable{
     private String descripcion;
     
     @Column(name = "proc_act_plan_manejo_amb")
-    private boolean confirmacion_actual;
+    private String confirmacion_actual;
 
     @Column(name = "proc_num_contrato", length = 20, nullable = false)
     private String num_contrato;
@@ -59,10 +59,10 @@ public class Proceso implements Serializable{
     private LocalDate fecha_fin;
         
     @Column(name = "proc_plan_accion")
-    private boolean plan_acc;
+    private String plan_acc;
 
     @Column(name = "proc_estado_contrato")
-    private boolean estado_contrato;
+    private String estado_contrato;
 
     @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name = "desc_proy_id", nullable = false)
@@ -94,11 +94,11 @@ public class Proceso implements Serializable{
         this.descripcion = descripcion;
     }
 
-    public boolean isConfirmacion_actual() {
+    public String getConfirmacion_actual() {
         return confirmacion_actual;
     }
 
-    public void setConfirmacion_actual(boolean confirmacion_actual) {
+    public void setConfirmacion_actual(String confirmacion_actual) {
         this.confirmacion_actual = confirmacion_actual;
     }
 
@@ -150,19 +150,19 @@ public class Proceso implements Serializable{
         this.fecha_fin = fecha_fin;
     }
 
-    public boolean isPlan_acc() {
+    public String getPlan_acc() {
         return plan_acc;
     }
 
-    public void setPlan_acc(boolean plan_acc) {
+    public void setPlan_acc(String plan_acc) {
         this.plan_acc = plan_acc;
     }
 
-    public boolean isEstado_contrato() {
+    public String getEstado_contrato() {
         return estado_contrato;
     }
 
-    public void setEstado_contrato(boolean estado_contrato) {
+    public void setEstado_contrato(String estado_contrato) {
         this.estado_contrato = estado_contrato;
     }
 
