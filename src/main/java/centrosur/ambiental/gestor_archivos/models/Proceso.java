@@ -190,4 +190,13 @@ public class Proceso implements Serializable{
                 + ", plan_acc=" + plan_acc + ", estado_contrato=" + estado_contrato + ", desc_proyecto=" + desc_proyecto
                 + "]";
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+        
 }
