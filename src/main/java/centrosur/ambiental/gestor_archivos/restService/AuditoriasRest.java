@@ -184,17 +184,13 @@ public class AuditoriasRest {
     @DeleteMapping(path = "/eliminarProceso", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public boolean eliminarProceso( String proyecto, String licencia, Integer proceso) {
         try {
-            Proceso procesoEditar = proy_rep.findAll().stream().filter(proy -> proy.getNombre().equals(proyecto))
-                    .findFirst().get()
-                    .getLista_desc_proy().stream().filter(des_p -> des_p.getIdentificador_desc().equals(licencia))
-                    .findFirst().get()
-                    .getLista_procesos().stream().filter(proc -> proc.getProceso() == proceso).findFirst().get();
-                    procesoEditar.setDesc_proyecto(null);            
-            System.out.println("eliminar >\n"+procesoEditar);
-            proc_rep.save(procesoEditar);
-            // Persona per = pers_rep.findAll().stream().filter(f -> f.getCedula().equals(cedulaLog)).findFirst().get();
-            // procesoEditar.getDesc_proyecto().getLista_procesos().remove(procesoEditar);
-            proc_rep.delete(procesoEditar);
+            Descripcion_Proyecto desc_del =  desc_proy_rep.findAll().stream().filter(f -> f.getIdentificador_desc().equals(licencia)).findFirst().get();
+            Proceso proc = desc_del.getLista_procesos().stream().filter(p -> p.getProceso() == proceso).findFirst().get();
+            desc_del.getLista_procesos().remove(proc);
+            desc_proy_rep.save(desc_del);
+            proc.setDesc_proyecto(null);
+            System.out.println("A por el\n"+proc);
+            proc_rep.delete(proc);
             return true;
         } catch (Exception e) {
             return false;

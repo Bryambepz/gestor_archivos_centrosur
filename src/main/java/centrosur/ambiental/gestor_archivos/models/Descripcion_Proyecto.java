@@ -51,7 +51,7 @@ public class Descripcion_Proyecto {
     @JsonIgnore
     private Proyecto proyecto;
 
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.REMOVE,fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<Proceso> lista_procesos = new HashSet<>();
 

@@ -64,7 +64,7 @@ public class Proceso implements Serializable{
     @Column(name = "proc_estado_contrato")
     private String estado_contrato;
 
-    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.REMOVE,fetch = FetchType.LAZY)
     @JoinColumn(name = "desc_proy_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
