@@ -40,7 +40,7 @@ public class Proyecto {
     @JsonIgnore
     private Set<Descripcion_Proyecto> lista_desc_proy = new HashSet<>();
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "per_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore

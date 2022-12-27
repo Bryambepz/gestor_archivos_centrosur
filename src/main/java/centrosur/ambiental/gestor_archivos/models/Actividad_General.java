@@ -35,7 +35,7 @@ public class Actividad_General {
     @Column(name = "acg_titulo", nullable = false, length = 175, unique = true)
     private String titulo;
     
-    @Column(name = "acg_descripcion", nullable = false, length = 255, unique = true)
+    @Column(name = "acg_descripcion", nullable = false, length = 255)
     private String descripcion;
     
     @Column(name = "acg_frecuencia", nullable = false)
@@ -53,30 +53,30 @@ public class Actividad_General {
     @Column(name = "acg_fecha_fin", nullable = false)
     private LocalDate fecha_fin;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "per_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private Persona responsable;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<Registro_Actividad> lista_reg_actividad = new HashSet<>();
     
     public Actividad_General() {
-        this.responsable = new Persona();
+        // this.responsable = new Persona();
         this.lista_reg_actividad = new HashSet<>();
     }
     
-    public Actividad_General(String titulo, String descripcion, String frecuencia, boolean estado,
-            LocalDate fecha_inicio, LocalDate fecha_fin) {
-        this.titulo = titulo;
-        this.descripcion = descripcion;
-        this.frecuencia = frecuencia;
-        this.estado = estado;
-        this.fecha_inicio = fecha_inicio;
-        this.fecha_fin = fecha_fin;
-    }
+    // public Actividad_General(String titulo, String descripcion, String frecuencia, boolean estado,
+    //         LocalDate fecha_inicio, LocalDate fecha_fin) {
+    //     this.titulo = titulo;
+    //     this.descripcion = descripcion;
+    //     this.frecuencia = frecuencia;
+    //     this.estado = estado;
+    //     this.fecha_inicio = fecha_inicio;
+    //     this.fecha_fin = fecha_fin;
+    // }
 
     public String getTitulo() {
         return titulo;
@@ -147,6 +147,14 @@ public class Actividad_General {
         return "Actividad_General [id=" + id + ", titulo=" + titulo + ", descripcion=" + descripcion + ", frecuencia="
                 + frecuencia + ", estado=" + estado + ", fecha_inicio=" + fecha_inicio
                 + ", fecha_fin=" + fecha_fin + ", persona=" + responsable + "]";
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
 }

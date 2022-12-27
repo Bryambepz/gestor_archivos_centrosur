@@ -47,7 +47,7 @@ public class Persona {
     @Column(name = "per_rol")
     private String rol;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<Actividad_General> lista_act_generales = new HashSet<>();
 

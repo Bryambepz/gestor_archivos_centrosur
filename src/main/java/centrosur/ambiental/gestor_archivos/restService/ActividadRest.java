@@ -38,11 +38,17 @@ public class ActividadRest {
     public Actividad_General ingresarActividad(@RequestBody Actividad_General ac_gen, @RequestParam String cedula) {
         System.out.println("a guardf");
         try {
-            Persona p = per_rep.findAll().stream().filter(per -> cedula.equals(per.getCedula())).findFirst().get();
-            ac_gen.setPersona(p);
-            p.addActividad(ac_gen);
-            return (p != null) ? actividad_gen.save(ac_gen) : null;
 
+            Persona p = per_rep.findAll().stream().filter(per -> cedula.equals(per.getCedula())).findFirst().get();
+            // int id = 1;
+            // long idl = id;
+            // ac_gen.setId(idl);
+            ac_gen.setPersona(p);
+            System.out.println(ac_gen);
+            ac_gen = actividad_gen.save(ac_gen);
+            p.addActividad(ac_gen);
+            persona_rep.save(p);
+            return ac_gen;
         } catch (Exception e) {
             System.out.println(" --> " + e.getMessage());
             return ac_gen;
@@ -60,7 +66,7 @@ public class ActividadRest {
                         listado.add(a);
                     });
 
-            return (!listado.isEmpty())? listado:null;
+            return (!listado.isEmpty()) ? listado : null;
         } catch (Exception e) {
             System.out.println(" -- > " + e.getMessage());
             return null;
