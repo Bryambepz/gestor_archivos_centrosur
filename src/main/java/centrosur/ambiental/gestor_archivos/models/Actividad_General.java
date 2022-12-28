@@ -68,16 +68,6 @@ public class Actividad_General {
         this.lista_reg_actividad = new HashSet<>();
     }
     
-    // public Actividad_General(String titulo, String descripcion, String frecuencia, boolean estado,
-    //         LocalDate fecha_inicio, LocalDate fecha_fin) {
-    //     this.titulo = titulo;
-    //     this.descripcion = descripcion;
-    //     this.frecuencia = frecuencia;
-    //     this.estado = estado;
-    //     this.fecha_inicio = fecha_inicio;
-    //     this.fecha_fin = fecha_fin;
-    // }
-
     public String getTitulo() {
         return titulo;
     }

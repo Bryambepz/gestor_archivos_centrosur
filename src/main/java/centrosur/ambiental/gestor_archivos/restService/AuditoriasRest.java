@@ -62,7 +62,24 @@ public class AuditoriasRest {
         try {
             return proy_rep.findAll();
         } catch (Exception e) {
-            // TODO: handle exception
+            return null;
+        }
+    }
+    
+    @PutMapping(path = "/actualizarProyecto", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Proyecto actualizarProy(@RequestBody Proyecto proy, @RequestParam String cedulaLogin){
+        Persona persona = pers_rep.findAll().stream().filter(p -> p.getCedula() == cedulaLogin).findFirst().get();
+        System.out.println("person > " + persona);
+        try {
+            proy.setResponsable(persona);
+            Proyecto p = proy_rep.save(proy);
+            System.out.println("act > " + p);
+            
+            persona.addProyecto(proy);
+            pers_rep.save(persona);
+            return p;        
+        } catch (Exception e) {
+            System.out.println(">>> eror " + e.getMessage());
             return null;
         }
     }
