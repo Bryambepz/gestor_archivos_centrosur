@@ -184,11 +184,11 @@ public class Proceso implements Serializable{
 
     @Override
     public String toString() {
-        return "Proceso [id=" + id + ", descripcion=" + descripcion + ", confirmacion_actual=" + confirmacion_actual
+        return "\n--->Proceso [id=" + id + ", descripcion=" + descripcion + ", confirmacion_actual=" + confirmacion_actual
                 + ", num_contrato=" + num_contrato + ", monto=" + monto + ", consultor=" + consultor
                 + ", codigo_registro=" + codigo_registro + ", fecha_ini=" + fecha_ini + ", fecha_fin=" + fecha_fin
                 + ", plan_acc=" + plan_acc + ", estado_contrato=" + estado_contrato + ", desc_proyecto=" + desc_proyecto
-                + "]";
+                + "]\n";
     }
 
     public Long getId() {

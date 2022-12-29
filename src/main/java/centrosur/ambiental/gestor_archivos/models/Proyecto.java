@@ -88,5 +88,9 @@ public class Proyecto {
     public String toString() {
         return "Proyecto [id=" + id + ", nombre=" + nombre + ", fecha_creacion=" + fecha_creacion + ", persona=" + responsable + "]";
     }
+
+    public Long getId() {
+        return id;
+    }
     
 }

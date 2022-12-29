@@ -36,8 +36,8 @@ public class Descripcion_Proyecto {
     @Column(name = "desc_proy_fecha_emision", nullable = false)
     private LocalDate fecha_emision;
 
-    @Column(name = "desc_proy_codigo_dga", nullable = false)
-    private String codigo_dga;
+    // @Column(name = "desc_proy_codigo_dga", nullable = false)
+    // private String codigo_dga;
 
     @Column(name = "desc_proy_codigo_aar", nullable = false)
     private String codigo_aar;
@@ -76,13 +76,13 @@ public class Descripcion_Proyecto {
         this.fecha_emision = fecha_emision;
     }
 
-    public String getCodigo_dga() {
-        return codigo_dga;
-    }
+    // public String getCodigo_dga() {
+    //     return codigo_dga;
+    // }
 
-    public void setCodigo_dga(String codigo_dga) {
-        this.codigo_dga = codigo_dga;
-    }
+    // public void setCodigo_dga(String codigo_dga) {
+    //     this.codigo_dga = codigo_dga;
+    // }
 
     public String getCodigo_aar() {
         return codigo_aar;
@@ -119,8 +119,12 @@ public class Descripcion_Proyecto {
     @Override
     public String toString() {
         return "Descripcion_Proyecto [id=" + id + ", identificador_desc=" + identificador_desc + ", fecha_emision="
-                + fecha_emision + ", codigo_dga=" + codigo_dga + ", codigo_aar=" + codigo_aar + ", aar=" + aar
+                + fecha_emision + ", codigo_aar=" + codigo_aar + ", aar=" + aar
                 + ", proyecto=" + proyecto + "]";
+    }
+
+    public Integer getId() {
+        return id;
     }
 
 }

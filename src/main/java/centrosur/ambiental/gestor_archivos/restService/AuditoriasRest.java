@@ -65,19 +65,19 @@ public class AuditoriasRest {
             return null;
         }
     }
-    
+
     @PutMapping(path = "/actualizarProyecto", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Proyecto actualizarProy(@RequestBody Proyecto proy, @RequestParam String cedulaLogin){
-        Persona persona = pers_rep.findAll().stream().filter(p -> p.getCedula() == cedulaLogin).findFirst().get();
-        System.out.println("person > " + persona);
+    public Proyecto actualizarProy(@RequestBody Proyecto proy, @RequestParam Long id) {
         try {
-            proy.setResponsable(persona);
-            Proyecto p = proy_rep.save(proy);
-            System.out.println("act > " + p);
-            
-            persona.addProyecto(proy);
-            pers_rep.save(persona);
-            return p;        
+            Proyecto proyectoResp = proy;
+            proy = proy_rep.findAll().stream().filter(f -> f.getId() == id).findFirst().get();
+
+            proy.setNombre(proyectoResp.getNombre());
+            proy.setFecha_creacion(proyectoResp.getFecha_creacion());
+
+            proy = proy_rep.save(proy);
+
+            return proy;
         } catch (Exception e) {
             System.out.println(">>> eror " + e.getMessage());
             return null;
@@ -89,10 +89,14 @@ public class AuditoriasRest {
         try {
             Proyecto pr = proy_rep.findAll().stream().filter(f -> nombreP.equals(f.getNombre())).findFirst().get();
             desc_proy.setProyecto(pr);
+            desc_proy = desc_proy_rep.save(desc_proy);
+
             pr.addDescripcionProyecto(desc_proy);
             System.out.println(pr);
             System.out.println(desc_proy);
-            return (pr != null) ? desc_proy_rep.save(desc_proy) : null;
+            proy_rep.save(pr);
+            return desc_proy;
+            // return (pr != null) ? desc_proy_rep.save(desc_proy) : null;
         } catch (Exception e) {
             System.out.println(" err -> " + e.getMessage());
             return null;
@@ -120,6 +124,21 @@ public class AuditoriasRest {
             System.out.println("--> " + e.getMessage());
             return null;
         }
+    }
+
+    @PutMapping(path = "/actualizarDescripcion", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Descripcion_Proyecto actualizarDescripcion(@RequestBody Descripcion_Proyecto desc_proy,
+            @RequestParam Integer id) {
+        Descripcion_Proyecto desc_proyResp = desc_proy;
+        desc_proy = desc_proy_rep.findAll().stream().filter(dp -> dp.getId() == id).findFirst().get();
+
+        desc_proy.setIdentificador_desc(desc_proyResp.getIdentificador_desc());
+        desc_proy.setFecha_emision(desc_proyResp.getFecha_emision());
+        desc_proy.setCodigo_aar(desc_proyResp.getCodigo_aar());
+        desc_proy.setAar(desc_proyResp.getAar());
+
+        desc_proy_rep.save(desc_proy);
+        return (desc_proy != null) ? desc_proy : null;
     }
 
     @PostMapping(path = "/proceso", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -152,6 +171,11 @@ public class AuditoriasRest {
     public List<Proceso> getProcesoByProyecto(@RequestParam String proy_desc) {
         try {
             List<Proceso> procesosByDescP = new ArrayList<>();
+
+            proc_rep.findAll().stream().forEach(f -> {
+                if(f.getDesc_proyecto().getProyecto().getNombre().equals("VARIANTE DE LA LINEA L690514B (SUBESTACIÓN N° 05 - SUBESTACIÓN N° 14) A 69 kV COMPRENDIDA ENTRE LAS ESTRUCTURAS E19 Y E22, DE 1120 m DE LONGITUD"))
+                    System.out.println(f.getDesc_proyecto().getProyecto().getNombre());
+            });
             desc_proy_rep.findAll().stream().filter(desc -> desc.getIdentificador_desc().equals(proy_desc)).findFirst()
                     .get().getLista_procesos().stream().forEach(f -> procesosByDescP.add(f));
             return procesosByDescP;
@@ -199,14 +223,16 @@ public class AuditoriasRest {
     }
 
     @DeleteMapping(path = "/eliminarProceso", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public boolean eliminarProceso( String proyecto, String licencia, Integer proceso) {
+    public boolean eliminarProceso(String proyecto, String licencia, Integer proceso) {
         try {
-            Descripcion_Proyecto desc_del =  desc_proy_rep.findAll().stream().filter(f -> f.getIdentificador_desc().equals(licencia)).findFirst().get();
-            Proceso proc = desc_del.getLista_procesos().stream().filter(p -> p.getProceso() == proceso).findFirst().get();
+            Descripcion_Proyecto desc_del = desc_proy_rep.findAll().stream()
+                    .filter(f -> f.getIdentificador_desc().equals(licencia)).findFirst().get();
+            Proceso proc = desc_del.getLista_procesos().stream().filter(p -> p.getProceso() == proceso).findFirst()
+                    .get();
             desc_del.getLista_procesos().remove(proc);
             desc_proy_rep.save(desc_del);
             proc.setDesc_proyecto(null);
-            System.out.println("A por el\n"+proc);
+            System.out.println("A por el\n" + proc);
             proc_rep.delete(proc);
             return true;
         } catch (Exception e) {
