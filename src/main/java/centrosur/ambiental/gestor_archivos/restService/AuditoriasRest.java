@@ -200,8 +200,7 @@ public class AuditoriasRest {
     }
 
     @PutMapping(path = "/actualizarProceso", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Proceso actualizarProceso(@RequestBody Proceso procesoAct, String proyecto, String licencia,
-            Integer proceso) {
+    public Proceso actualizarProceso(@RequestBody Proceso procesoAct, String proyecto, String licencia,Integer proceso) {
         try {
             Proceso procesoEditar = proy_rep.findAll().stream().filter(proy -> proy.getNombre().equals(proyecto))
                     .findFirst().get()
@@ -280,6 +279,37 @@ public class AuditoriasRest {
             System.out.println(listado);
             return listado;
         } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @PutMapping(path = "/actualizarInformacion", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Informacion_Proceso actualizarInformacion(@RequestBody Informacion_Proceso inf_proc) {
+        try {
+            Long id = inf_proc.getId();
+            Informacion_Proceso info_procResp = inf_proc;
+            inf_proc = info_rep.findAll().stream().filter(f -> f.getId() == id).findFirst().get();
+            System.out.println("antes >\n"+inf_proc);
+            inf_proc.setTitulo(info_procResp.getTitulo());
+            inf_proc.setArch_adjunto(info_procResp.getArch_adjunto());
+            inf_proc.setDescripcion(info_procResp.getDescripcion());
+            System.out.println("desp >\n"+inf_proc);
+            inf_proc = info_rep.save(inf_proc);
+            System.out.println("\nguard>>>>>>>>>\n"+inf_proc);
+            // Proceso procesoEditar = proy_rep.findAll().stream().filter(proy -> proy.getNombre().equals(proyecto))
+            //         .findFirst().get()
+            //         .getLista_desc_proy().stream().filter(des_p -> des_p.getIdentificador_desc().equals(licencia))
+            //         .findFirst().get()
+            //         .getLista_procesos().stream().filter(proc -> proc.getProceso() == proceso).findFirst().get();
+            // Long id = procesoEditar.getId();
+            // Descripcion_Proyecto des_proy = procesoEditar.getDesc_proyecto();
+            // procesoEditar = procesoAct;
+            // procesoEditar.setId(id);
+            // procesoEditar.setDesc_proyecto(des_proy);
+            // System.out.println("actt >>>\n " + procesoEditar);
+            return inf_proc;
+        } catch (Exception e) {
+            System.out.println("error >>>> \n" + e.getMessage());
             return null;
         }
     }

@@ -28,22 +28,14 @@ public class Informacion_Proceso {
     @Column(name = "inf_proc_titulo")
     private String titulo;
 
-    @Column(name = "inf_proc_archivo_inicial", unique = true, nullable = false)
-    private String arch_inicial;
+    @Column(name = "inf_proc_archivo", unique = true, nullable = false)
+    private String arch_adjunto;
 
-    @Column(name = "inf_proc_archivo_final", unique = false)
-    private String arch_final;
+    // @Column(name = "inf_proc_archivo_final", unique = false)
+    // private String arch_final;
 
     @Column(name = "inf_proc_descripcion", nullable = false)
     private String descripcion;
-    // @Column(name = "inf_proc_archivo", unique = true, nullable = false)
-    // private String ubi_archivo;
-
-    // @Column(name = "inf_proc_fecha", nullable = false)
-    // private LocalDate fechaArch;
-
-    // @Column(name = "inf_proc_descripcion", nullable = true)
-    // private String descripcion;
 
     @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name = "proc_id", nullable = false)
@@ -53,13 +45,13 @@ public class Informacion_Proceso {
 
     public Informacion_Proceso(){}
 
-    // public long getId() {
-    //     return id;
-    // }
+    public long getId() {
+        return id;
+    }
 
     // public void setId(long id) {
     //     this.id = id;
-    // }
+    // }187,1
 
     public String getTitulo() {
         return titulo;
@@ -69,21 +61,21 @@ public class Informacion_Proceso {
         this.titulo = titulo;
     }
 
-    public String getArch_inicial() {
-        return arch_inicial;
+    public String getArch_adjunto() {
+        return arch_adjunto;
     }
 
-    public void setArch_inicial(String arch_inicial) {
-        this.arch_inicial = arch_inicial;
+    public void setArch_adjunto(String arch_inicial) {
+        this.arch_adjunto = arch_inicial;
     }
 
-    public String getArch_final() {
-        return arch_final;
-    }
+    // public String getArch_final() {
+    //     return arch_final;
+    // }
 
-    public void setArch_final(String arch_final) {
-        this.arch_final = arch_final;
-    }
+    // public void setArch_final(String arch_final) {
+    //     this.arch_final = arch_final;
+    // }
 
     public String getDescripcion() {
         return descripcion;
@@ -103,7 +95,7 @@ public class Informacion_Proceso {
 
     @Override
     public String toString() {
-        return "Informacion_Proceso [id=" + id + ", titulo=" + titulo + ", arch_inicial=" + arch_inicial
-                + ", arch_final=" + arch_final + ", descripcion=" + descripcion + ", proceso=" + proceso + "]";
+        return "Informacion_Proceso [id=" + id + ", titulo=" + titulo + ", arch_inicial=" + arch_adjunto
+                + ", descripcion=" + descripcion + ", proceso=" + proceso + "]";
     }    
 }
