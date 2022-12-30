@@ -172,12 +172,11 @@ public class AuditoriasRest {
         try {
             List<Proceso> procesosByDescP = new ArrayList<>();
 
-            proc_rep.findAll().stream().forEach(f -> {
-                if(f.getDesc_proyecto().getProyecto().getNombre().equals("VARIANTE DE LA LINEA L690514B (SUBESTACIÓN N° 05 - SUBESTACIÓN N° 14) A 69 kV COMPRENDIDA ENTRE LAS ESTRUCTURAS E19 Y E22, DE 1120 m DE LONGITUD"))
-                    System.out.println(f.getDesc_proyecto().getProyecto().getNombre());
-            });
             desc_proy_rep.findAll().stream().filter(desc -> desc.getIdentificador_desc().equals(proy_desc)).findFirst()
-                    .get().getLista_procesos().stream().forEach(f -> procesosByDescP.add(f));
+                    .get().getLista_procesos().stream().forEach(f -> {                        
+                        procesosByDescP.add(f);
+                    });
+
             return procesosByDescP;
         } catch (Exception e) {
             return null;
