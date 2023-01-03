@@ -49,7 +49,6 @@ public class AuditoriasRest {
                     .get();
             p.addProyecto(proy);
             proy.setResponsable(p);
-            System.out.println(proy);
             return proy_rep.save(proy);
         } catch (Exception e) {
             // TODO: handle exception
@@ -79,7 +78,7 @@ public class AuditoriasRest {
 
             return proy;
         } catch (Exception e) {
-            System.out.println(">>> eror " + e.getMessage());
+            // System.out.println(">>> errorProyActua " + e.getMessage());
             return null;
         }
     }
@@ -92,8 +91,6 @@ public class AuditoriasRest {
             desc_proy = desc_proy_rep.save(desc_proy);
 
             pr.addDescripcionProyecto(desc_proy);
-            System.out.println(pr);
-            System.out.println(desc_proy);
             proy_rep.save(pr);
             return desc_proy;
             // return (pr != null) ? desc_proy_rep.save(desc_proy) : null;
@@ -118,7 +115,6 @@ public class AuditoriasRest {
         try {
             List<Descripcion_Proyecto> DescByProy = new ArrayList<>();
             proy_rep.findByNombre(proyecto).get(0).getLista_desc_proy().forEach(des -> DescByProy.add(des));
-            System.out.println(DescByProy);
             return DescByProy;
         } catch (Exception e) {
             System.out.println("--> " + e.getMessage());
@@ -149,10 +145,8 @@ public class AuditoriasRest {
 
             proc.setDesc_proyecto(desc_p);
             desc_p.addProceso(proc);
-            System.out.println("Proceso --> " + proc);
             return (desc_p != null) ? proc_rep.save(proc) : null;
         } catch (Exception e) {
-            System.out.println("> " + proc + "\n> " + identificadorProyecto);
             System.out.println("errp --->\n" + e.getMessage());
             return null;
         }
@@ -192,7 +186,6 @@ public class AuditoriasRest {
                     .getLista_desc_proy().stream().filter(des_p -> des_p.getIdentificador_desc().equals(licencia))
                     .findFirst().get()
                     .getLista_procesos().stream().filter(proc -> proc.getProceso() == proceso).findFirst().get();
-            System.out.println("el poc \n" + procesoEditar);
             return procesoEditar;
         } catch (Exception e) {
             return null;
@@ -212,7 +205,6 @@ public class AuditoriasRest {
             procesoEditar = procesoAct;
             procesoEditar.setId(id);
             procesoEditar.setDesc_proyecto(des_proy);
-            System.out.println("actt >>>\n " + procesoEditar);
             return proc_rep.save(procesoEditar);
         } catch (Exception e) {
             System.out.println("error >>>> \n" + e.getMessage());
@@ -230,7 +222,6 @@ public class AuditoriasRest {
             desc_del.getLista_procesos().remove(proc);
             desc_proy_rep.save(desc_del);
             proc.setDesc_proyecto(null);
-            System.out.println("A por el\n" + proc);
             proc_rep.delete(proc);
             return true;
         } catch (Exception e) {
@@ -242,7 +233,6 @@ public class AuditoriasRest {
     public Informacion_Proceso addInformacionProceso(@RequestBody Informacion_Proceso info_proc,
             @RequestParam Integer proceso, @RequestParam String id_descrip) {
         try {
-            System.out.println(info_proc);
             Proceso p = desc_proy_rep.findAll().stream()
                     .filter(desc_p -> desc_p.getIdentificador_desc().equals(id_descrip)).findFirst()
                     .get().getLista_procesos().stream().filter(pro -> pro.getProceso().equals(proceso)).findFirst()
@@ -276,7 +266,6 @@ public class AuditoriasRest {
                     .getLista_procesos().stream().filter(proc -> proc.getProceso() == proceso).findFirst().get()
                     .getLista_informacion_proc().stream().forEach(f -> listado.add(f));
             ;
-            System.out.println(listado);
             return listado;
         } catch (Exception e) {
             return null;
@@ -289,27 +278,12 @@ public class AuditoriasRest {
             Long id = inf_proc.getId();
             Informacion_Proceso info_procResp = inf_proc;
             inf_proc = info_rep.findAll().stream().filter(f -> f.getId() == id).findFirst().get();
-            System.out.println("antes >\n"+inf_proc);
             inf_proc.setTitulo(info_procResp.getTitulo());
             inf_proc.setArch_adjunto(info_procResp.getArch_adjunto());
             inf_proc.setDescripcion(info_procResp.getDescripcion());
-            System.out.println("desp >\n"+inf_proc);
             inf_proc = info_rep.save(inf_proc);
-            System.out.println("\nguard>>>>>>>>>\n"+inf_proc);
-            // Proceso procesoEditar = proy_rep.findAll().stream().filter(proy -> proy.getNombre().equals(proyecto))
-            //         .findFirst().get()
-            //         .getLista_desc_proy().stream().filter(des_p -> des_p.getIdentificador_desc().equals(licencia))
-            //         .findFirst().get()
-            //         .getLista_procesos().stream().filter(proc -> proc.getProceso() == proceso).findFirst().get();
-            // Long id = procesoEditar.getId();
-            // Descripcion_Proyecto des_proy = procesoEditar.getDesc_proyecto();
-            // procesoEditar = procesoAct;
-            // procesoEditar.setId(id);
-            // procesoEditar.setDesc_proyecto(des_proy);
-            // System.out.println("actt >>>\n " + procesoEditar);
             return inf_proc;
         } catch (Exception e) {
-            System.out.println("error >>>> \n" + e.getMessage());
             return null;
         }
     }
