@@ -43,10 +43,10 @@ public class PersonaRest {
         // System.out.println("eer --> \n" + e.getMessage());
         // return null;
         // }
-        return (List<Persona>) Persona_Repository.findAll();
+        return Persona_Repository.findAll();
     }
 
-    @PostMapping(path = "/login", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/login", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Persona addUser(@RequestParam String email, @RequestParam String password) {
         return Persona_Repository.findAll().stream().filter(p -> email.equals(p.getEmail()) && password.equals(p.getContrasenia()))
                 .findFirst().get();

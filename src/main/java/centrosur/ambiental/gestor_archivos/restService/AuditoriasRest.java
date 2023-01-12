@@ -45,13 +45,18 @@ public class AuditoriasRest {
     @PostMapping(path = "/proyecto", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Proyecto crearProyecto(@RequestBody Proyecto proy, @RequestParam String cedulaLogin) {
         try {
-            Persona p = pers_rep.findAll().stream().filter(per -> per.getCedula().equals(cedulaLogin)).findFirst()
-                    .get();
+            Persona p = pers_rep.findAll().stream().filter(per -> per.getCedula().equals(cedulaLogin)).findFirst().get();
+            proy.setResponsable(p); 
+            proy = proy_rep.save(proy);
+
             p.addProyecto(proy);
-            proy.setResponsable(p);
-            return proy_rep.save(proy);
+            pers_rep.save(p);
+            System.out.println("aaaa > " + proy);
+            System.out.println("\nper > " + p);
+            return proy;
         } catch (Exception e) {
             // TODO: handle exception
+            System.out.println("errpor > " + e.getMessage());
             return null;
         }
     }

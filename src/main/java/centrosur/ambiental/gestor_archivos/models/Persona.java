@@ -51,7 +51,7 @@ public class Persona {
     @JsonIgnore
     private Set<Actividad_General> lista_act_generales = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)        
+    @OneToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)        
     @JsonIgnore
     private Set<Proyecto> lista_proyectosAu = new HashSet<>();
     
