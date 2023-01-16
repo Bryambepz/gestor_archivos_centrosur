@@ -120,6 +120,7 @@ public class AuditoriasRest {
         try {
             List<Descripcion_Proyecto> DescByProy = new ArrayList<>();
             proy_rep.findByNombre(proyecto).get(0).getLista_desc_proy().forEach(des -> DescByProy.add(des));
+            System.out.println("listad > " + DescByProy);
             return DescByProy;
         } catch (Exception e) {
             System.out.println("--> " + e.getMessage());
@@ -129,7 +130,7 @@ public class AuditoriasRest {
 
     @PutMapping(path = "/actualizarDescripcion", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Descripcion_Proyecto actualizarDescripcion(@RequestBody Descripcion_Proyecto desc_proy,
-            @RequestParam Integer id) {
+            @RequestParam Long id) {
         Descripcion_Proyecto desc_proyResp = desc_proy;
         desc_proy = desc_proy_rep.findAll().stream().filter(dp -> dp.getId() == id).findFirst().get();
 

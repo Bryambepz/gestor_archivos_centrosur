@@ -28,7 +28,7 @@ public class Descripcion_Proyecto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "desc_proy_id", nullable = false, unique = true)
-    private Integer id;
+    private Long id;
 
     @Column(name = "desc_proy_identificador_desc", nullable = false, unique = true)
     private String identificador_desc;
@@ -123,7 +123,7 @@ public class Descripcion_Proyecto {
                 + ", proyecto=" + proyecto + "]";
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
